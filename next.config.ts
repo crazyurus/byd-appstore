@@ -5,10 +5,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'byd-store-cdn-rel.byd.auto',
-      },
-    ],
-  },
+        hostname: 'byd-store-cdn-rel.byd.auto'
+      }
+    ]
+  }
 };
 
 export default nextConfig;

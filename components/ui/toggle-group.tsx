@@ -1,11 +1,11 @@
 'use client';
 
-import * as React from 'react';
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group';
 import { type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-import { cn } from '@/lib/utils';
 import { toggleVariants } from '@/components/ui/toggle';
+import { cn } from '@/lib/utils';
 
 const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants> & {
@@ -14,7 +14,7 @@ const ToggleGroupContext = React.createContext<
 >({
   size: 'default',
   variant: 'default',
-  spacing: 0,
+  spacing: 0
 });
 
 function ToggleGroup({
@@ -39,11 +39,8 @@ function ToggleGroup({
         'group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs',
         className
       )}
-      {...props}
-    >
-      <ToggleGroupContext.Provider value={{ variant, size, spacing }}>
-        {children}
-      </ToggleGroupContext.Provider>
+      {...props}>
+      <ToggleGroupContext.Provider value={{ variant, size, spacing }}>{children}</ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
   );
 }
@@ -54,8 +51,7 @@ function ToggleGroupItem({
   variant,
   size,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
-  VariantProps<typeof toggleVariants>) {
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> & VariantProps<typeof toggleVariants>) {
   const context = React.useContext(ToggleGroupContext);
 
   return (
@@ -67,14 +63,13 @@ function ToggleGroupItem({
       className={cn(
         toggleVariants({
           variant: context.variant || variant,
-          size: context.size || size,
+          size: context.size || size
         }),
         'w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10',
         'data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 data-[spacing=0]:data-[variant=outline]:first:border-l',
         className
       )}
-      {...props}
-    >
+      {...props}>
       {children}
     </ToggleGroupPrimitive.Item>
   );

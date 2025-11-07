@@ -1,6 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { JSX } from 'react';
+
 import {
   Select,
   SelectContent,
@@ -8,9 +10,9 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select';
-import { JSX } from 'react';
+
 import platforms from './data/platform.json';
 
 interface Props {

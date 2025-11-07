@@ -1,9 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import categories from './data/category.json';
 import { JSX } from 'react';
+
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
+import categories from './data/category.json';
 
 interface Props {
   category: string;
@@ -20,18 +22,9 @@ function Toggle(props: Props): JSX.Element {
   };
 
   return (
-    <ToggleGroup
-      value={props.category}
-      type="single"
-      variant="outline"
-      onValueChange={handleChange}
-    >
+    <ToggleGroup value={props.category} type="single" variant="outline" onValueChange={handleChange}>
       {categories.map(item => (
-        <ToggleGroupItem
-          className="cursor-pointer"
-          key={item.id}
-          value={item.id.toString()}
-        >
+        <ToggleGroupItem className="cursor-pointer" key={item.id} value={item.id.toString()}>
           {item.name}
         </ToggleGroupItem>
       ))}

@@ -1,31 +1,26 @@
+import { decode } from 'html-entities';
+import { Download, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Download, Star } from 'lucide-react';
+import { JSX } from 'react';
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
-
-import { decode } from 'html-entities';
-import { getDetail } from '../../lib/data';
-import NavigateBack from './back';
-import { JSX } from 'react';
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { getDetail } from '../../lib/data';
+import NavigateBack from './back';
 
 interface Props {
   params: {
@@ -53,7 +48,7 @@ function formatDateTime(date: Date): string {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
+    second: '2-digit'
   });
 }
 
@@ -82,24 +77,14 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
       </Breadcrumb>
       <div className="flex gap-8">
         <div className="shrink-0">
-          <Image
-            className="rounded-md border"
-            width={120}
-            height={120}
-            src={detail.appInfo.icon}
-            alt="app-icon"
-          />
+          <Image className="rounded-md border" width={120} height={120} src={detail.appInfo.icon} alt="app-icon" />
         </div>
         <div className="grow">
           <div className="flex items-center gap-3">
             <div className="text-xl font-bold">{detail.appInfo.name}</div>
-            <Badge variant="secondary">
-              {detail.appInfo.classification_name}
-            </Badge>
+            <Badge variant="secondary">{detail.appInfo.classification_name}</Badge>
           </div>
-          <div className="mt-1 text-muted-foreground">
-            {detail.appInfo.introduction}
-          </div>
+          <div className="mt-1 text-muted-foreground">{detail.appInfo.introduction}</div>
           <div className="flex items-center gap-4 mt-7">
             <Button className="cursor-pointer" asChild>
               <Link href={detail.appInfo.download}>
@@ -107,9 +92,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
                 下载
               </Link>
             </Button>
-            <div className="text-sm text-muted-foreground">
-              {addNumberSeparator(detail.download_counts)} 次下载
-            </div>
+            <div className="text-sm text-muted-foreground">{addNumberSeparator(detail.download_counts)} 次下载</div>
           </div>
         </div>
       </div>
@@ -121,9 +104,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
           <TabsTrigger value="changelog">更新日志</TabsTrigger>
         </TabsList>
         <TabsContent value="introduction">
-          <div className="mt-3 whitespace-pre-wrap">
-            {decode(detail.description.replaceAll('&amp;', '&'))}
-          </div>
+          <div className="mt-3 whitespace-pre-wrap">{decode(detail.description.replaceAll('&amp;', '&'))}</div>
           <div className="mt-4 w-full">
             <ScrollArea className="rounded-md border whitespace-nowrap">
               <div className="flex w-max space-x-4 p-4">
@@ -180,18 +161,12 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
               </Field>
               <Field>
                 <FieldLabel>评分</FieldLabel>
-                <div className="flex text-yellow-500">
-                  {Array(detail.score).fill(<Star />)}
-                </div>
+                <div className="flex text-yellow-500">{Array(detail.score).fill(<Star />)}</div>
               </Field>
               {detail.privacy_policy ? (
                 <Field>
                   <FieldLabel>隐私协议</FieldLabel>
-                  <Link
-                    className="text-blue-500"
-                    href={detail.privacy_policy}
-                    target="_blank"
-                  >
+                  <Link className="text-blue-500" href={detail.privacy_policy} target="_blank">
                     查看
                   </Link>
                 </Field>
@@ -202,16 +177,11 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
         <TabsContent value="permission">
           <Accordion type="single" collapsible className="w-full">
             {detail.permissions.map(item => (
-              <AccordionItem
-                key={item.permission_en}
-                value={item.permission_en}
-              >
+              <AccordionItem key={item.permission_en} value={item.permission_en}>
                 <AccordionTrigger>
                   <div className="flex grow justify-between">
                     <div>{item.permission_cn}</div>
-                    <div className="font-normal text-muted-foreground">
-                      {item.permission_en}
-                    </div>
+                    <div className="font-normal text-muted-foreground">{item.permission_en}</div>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">

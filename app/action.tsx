@@ -1,7 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { JSX, type MouseEvent } from 'react';
+
+import { Button } from '@/components/ui/button';
 
 interface Props {
   url: string;
@@ -19,12 +20,7 @@ function ActionButton(props: Props): JSX.Element {
       <Button className="cursor-pointer" size="sm">
         查看
       </Button>
-      <Button
-        className="cursor-pointer"
-        size="sm"
-        variant="outline"
-        onClick={handleDownload}
-      >
+      <Button className="cursor-pointer" size="sm" variant="outline" onClick={handleDownload}>
         下载
       </Button>
     </>
