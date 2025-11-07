@@ -1,65 +1,1088 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import {
+  Item,
+  ItemGroup,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from '@/components/ui/item';
+import { JSX, useState } from 'react';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import categories from './category.json';
+
+const response = {
+  code: 0,
+  msg: 'ok',
+  data: [
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '455415009',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/39c81ebaa86d4ba095b3ac47badfdef8.png',
+      version: '3.5.11',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/7a1e9ad3b0114ff88a259311e3e332fb.apk',
+      size: 39699606,
+      name: '网易云音乐车机版',
+      package_name: 'com.netease.cloudmusic.iot',
+      ver_code: 3005011,
+      classification_id: 8,
+      id: 2019,
+      introduction: '口碑爆棚的音乐APP',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'b94e4cff149f04dc852b1b27d4e56a09',
+    },
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '1287996573',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/7682c8a1acf3433fa2aae2f399f55706.png',
+      version: '2.7.25.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/2bc1cb1c1cdc4637ad267d5082b2313d.apk',
+      size: 45803070,
+      name: 'QQ音乐车机版',
+      package_name: 'com.tencent.qqmusiccar',
+      ver_code: 2072500,
+      classification_id: 8,
+      id: 2113,
+      introduction: '音乐世界，从新开始',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'd0c2191249acd35a264879e691c1d5b8',
+    },
+    {
+      classification_name: '社交通讯',
+      classification_name_en: 'Social',
+      signature: '1295447972',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/7f347bf08c9d4d97857ce07e1aeb938c.png',
+      version: '8.0.58',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/ecfafaac61554c5187d71e2342518d07.apk',
+      size: 257820607,
+      name: '微信手机版',
+      package_name: 'com.tencent.mm',
+      ver_code: 2840,
+      classification_id: 15,
+      id: 2008,
+      introduction: '微信，超过10亿人使用',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '72f4a351f0332e3819d3748a318706a7',
+    },
+    {
+      classification_name: '社交通讯',
+      classification_name_en: 'Social',
+      signature: '1325320554',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/76881b4cc84a43e1ae9beb34f817294d.png',
+      version: '33.8.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/207ca0d2727f4fe5bf2ce3eaf5b2be6d.apk',
+      size: 290784012,
+      name: '抖音手机版',
+      package_name: 'com.ss.android.ugc.aweme',
+      ver_code: 330801,
+      classification_id: 15,
+      id: 2134,
+      introduction: '手机短视频直播平台',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '1b968dbe5d67b3f53b9844f2b11f5158',
+    },
+    {
+      classification_name: '交通导航',
+      classification_name_en: 'Navigation',
+      signature: '1268635879',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/f2fb59e9069a4a9486342f34def70ea8.png',
+      version: '20.1.7',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/8fd74036ba1443eca863bab05284843e.apk',
+      size: 133391516,
+      name: '百度地图',
+      package_name: 'com.baidu.BaiduMap',
+      ver_code: 1387,
+      classification_id: 7,
+      id: 1579,
+      introduction: '全国3D车道级导航，走对道、更安全！',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'f170b5bb4eca5c0e1b30ff8112cd90a0',
+    },
+    {
+      classification_name: '交通导航',
+      classification_name_en: 'Navigation',
+      signature: '1275275048',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/b56b6e10266f41c89db3cf0c05fb8217.png',
+      version: '15.20.0.2075',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/295a9795b7794848a72cf9dd52d48f4e.apk',
+      size: 175695247,
+      name: '高德地图手机版',
+      package_name: 'com.autonavi.minimap',
+      ver_code: 152000,
+      classification_id: 7,
+      id: 2033,
+      introduction: '专业级的手机导航软件',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '4f9370e8a280673d6c9c196b0b42ca13',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '432819593069673712843483681982676869592388184650',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/14459bc6de64415092a61d8ddecc9334.png',
+      version: '2.7.20',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/873d46b303e54ba89bf41db30958b08f.apk',
+      size: 26666605,
+      name: '哔哩哔哩车机版',
+      package_name: 'com.bilibili.bilithings',
+      ver_code: 2072007,
+      classification_id: 13,
+      id: 2015,
+      introduction: '知名在线视频分享APP',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'df415e3dcfa63c5739ba2453cd5d60b2',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '1282554655',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/44668d65585d4e42b3c7b56437ac338f.webp',
+      version: '8.10.35.28155',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/f90702d84af6490ab52b994be7b32817.apk',
+      size: 133228996,
+      name: '腾讯视频手机版',
+      package_name: 'com.tencent.qqlive',
+      ver_code: 28155,
+      classification_id: 13,
+      id: 2042,
+      introduction: '腾讯视频致力于打造中国领先的在线视频媒体平台',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '77132e98c743647a8d8b3c5f6b27c350',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '1201754618',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/afd5bbcfc393429faf0e6de2cbaedc4d.png',
+      version: '11.1.1.310.18',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/574742dc53e441c2a90f8c53a51abcb8.apk',
+      size: 66807854,
+      name: '优酷视频车机版',
+      package_name: 'com.youku.car',
+      ver_code: 809,
+      classification_id: 13,
+      id: 2017,
+      introduction: '看视频，在优酷',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '6705e71caf745f9ff09e4e7348dd703d',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1277611682',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/11194070aea248df90bb69650a820f43.png',
+      version: '7.8.8',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/665d450614f34dc9b8ee04a2490fa5df.apk',
+      size: 11828255,
+      name: '应用宝',
+      package_name: 'com.tencent.android.qqdownloader',
+      ver_code: 7884130,
+      classification_id: 11,
+      id: 2035,
+      introduction: '丰富的应用',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'a54abe03524a9b3c4d7f67fd1e8ef08e',
+    },
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '455415009',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/aeefbb9f40ab4b0db1470d6d991b0881.png',
+      version: '8.8.90',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/a2aef0026d5d4b8fb51dcaf9b7f66705.apk',
+      size: 187149234,
+      name: '网易云音乐手机版',
+      package_name: 'com.netease.cloudmusic',
+      ver_code: 8008090,
+      classification_id: 8,
+      id: 2043,
+      introduction: '好音乐，心享受',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '09ade40416d2d2dea1f9168b429a41e7',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1279693130',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/a5c853c2092140b4ad18baab213889f1.png',
+      version: '13.1.0.0051',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/d792ce4b9d524c8eaef773bc136f7e5b.apk',
+      size: 95275339,
+      name: 'QQ浏览器',
+      package_name: 'com.tencent.mtt',
+      ver_code: 13100501,
+      classification_id: 11,
+      id: 2038,
+      introduction: '四亿人的工作学习神器',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '2eaa7ed386e2aee2209116ff902bd242',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1268635879',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/2ec47a5c6c344f8182773a6339665573.png',
+      version: '13.52.5.10',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/4ed5db9474074dc7bf2446d7c3571c3e.apk',
+      size: 159829549,
+      name: '百度手机版',
+      package_name: 'com.baidu.searchbox',
+      ver_code: 231757056,
+      classification_id: 11,
+      id: 2202,
+      introduction: '百度手机版    百度是一款十分便捷好用的手机浏览器工具',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'e761b365c3050d83aae19661e9edb2aa',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '432819593069673712843483681982676869592388184650',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/f4bde25dc4a742d98538667bf1b3980e.png',
+      version: '7.6.601',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/c72214c7f15341ce87c4a81c23b8db58.apk',
+      size: 33290620,
+      name: '芒果TV车机版',
+      package_name: 'com.mgtv.auto',
+      ver_code: 76642251,
+      classification_id: 13,
+      id: 2000,
+      introduction: '丰富视听内容、高清画质体验',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '56d5c8d0c15ebf69d3b9c03ce8afd261',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1301465516',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/ed442f2a7a2445c79eecd91c1e203e7f.png',
+      version: '6.4.5.332',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/7b9b7e16842b4bd1bcbbdbbfec1625a6.apk',
+      size: 92581047,
+      name: '夸克',
+      package_name: 'com.quark.browser',
+      ver_code: 332,
+      classification_id: 11,
+      id: 2055,
+      introduction: '推崇专注与效率的浏览器',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'd6711f772838f6cb4d0a21f3a6b119d1',
+    },
+    {
+      classification_name: '新闻阅读',
+      classification_name_en: 'Reading',
+      signature: '1325320554',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/95995bb89a414141a8cf7136cf97d474.webp',
+      version: '9.3.9',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/afcd0c4f5b3a44989aae24059cb74a6e.apk',
+      size: 64888816,
+      name: '今日头条',
+      package_name: 'com.ss.android.article.news',
+      ver_code: 9390,
+      classification_id: 14,
+      id: 2061,
+      introduction: '你关心的，才是头条!',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'cd363ce27759956b18cc32239d4bb318',
+    },
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '432819593069673712843483681982676869592388184650',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/2365b29fb52448219fa5d2a1f0569c4b.png',
+      version: '3.77',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/29bf0068005046729e964471c1ac0204.apk',
+      size: 24244149,
+      name: '雷石KTV车机版',
+      package_name: 'com.huiaichang.byd.desktop',
+      ver_code: 300077,
+      classification_id: 8,
+      id: 2018,
+      introduction: '手中有麦，身边有你，沉浸式车载KTV',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '83119e879e86bbb92098cf7a1010d263',
+    },
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '1919004785',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/4911d02135d546e68ab0c981cf7d8ac7.png',
+      version: '6.1.1.01',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b29643ce5b71404e827efc31135919be.apk',
+      size: 33180577,
+      name: '喜马拉雅车机版',
+      package_name: 'com.ximalaya.ting.android.car.byd',
+      ver_code: 610101,
+      classification_id: 8,
+      id: 2301,
+      introduction: '国内专业音频分享平台',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '11956f8d404a71382da879539cfc9b17',
+    },
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '432819593069673712843483681982676869592388184650',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/a3d83286b5c546f488e3b8aa95dd74d9.png',
+      version: '2.5.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b4b0623a366c471e830acac1bde6f520.apk',
+      size: 13075645,
+      name: '懒人听书',
+      package_name: 'bubei.tingshu.hd',
+      ver_code: 2500,
+      classification_id: 8,
+      id: 2002,
+      introduction: '就是书多 随时随地在线收听完整小说',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'd873c715ec31e14a1218b84282e072ad',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '43645367',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/c5d129d7a05d48e692e742dea0248367.png',
+      version: '10.5.5.22.22',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b943dbcf96974e5483c96fbaafb31c77.apk',
+      size: 47690713,
+      name: '咪咕视频车机版',
+      package_name: 'cn.cmvideo.car.play',
+      ver_code: 10552222,
+      classification_id: 13,
+      id: 1991,
+      introduction: '咪咕视频提供海量短视频内容、高质量影视',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'eb2501b6f96f9fe1364873a6c5318091',
+    },
+    {
+      classification_name: '儿童专区',
+      classification_name_en: 'Children',
+      signature: '1300806805',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/35184449feed4d2e90a8f3b0ad086433.png',
+      version: '4.9.4',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/7e0b0194e5c14c73b7d116a8fe15b8b9.apk',
+      size: 33987030,
+      name: '宝宝巴士儿歌',
+      package_name: 'com.sinyee.babybus.chants',
+      ver_code: 4904,
+      classification_id: 34,
+      id: 2040,
+      introduction: '一款专注儿歌、动画片、故事、绘本的优质儿童视频大全平台',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '2b8c39742340336fa3b7b360bb57d620',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '1351582188',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/02602dd740d64092972eee07c9bc6714.png',
+      version: '7.7.3',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/bb2be18aa1014e1bb64330afe57f7c26.apk',
+      size: 76140532,
+      name: '央视影音',
+      package_name: 'cn.cntv',
+      ver_code: 70730,
+      classification_id: 13,
+      id: 2026,
+      introduction: '新闻体育人文影视高清直播平台',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'c9a1c4215b9e97acf7a56b43bbb24107',
+    },
+    {
+      classification_name: '儿童专区',
+      classification_name_en: 'Children',
+      signature: '1393735981',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/94a497ba76a146ae9ba9bac947a2fd97.png',
+      version: '5.8.5',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b600a76436bb43cf9d4f6656fd12b101.apk',
+      size: 21603505,
+      name: '贝乐虎儿歌',
+      package_name: 'com.ubestkid.beilehu.android',
+      ver_code: 585,
+      classification_id: 34,
+      id: 2032,
+      introduction: '贝乐虎儿歌，陪伴宝宝快乐地成长！',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '7b6bf0d4e2df0cd7feebf6d1227271d1',
+    },
+    {
+      classification_name: '购物生活',
+      classification_name_en: 'Shopping',
+      signature: '1280906542',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/0c4bd37935784c29bdc70704258c688c.png',
+      version: '10.32.20',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/a1576391804d4c409cdb6c308d787b46.apk',
+      size: 81408340,
+      name: '淘宝手机版',
+      package_name: 'com.taobao.taobao',
+      ver_code: 618,
+      classification_id: 32,
+      id: 2039,
+      introduction: '随时随地，想淘就淘',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'f4210f2bce0302f006944914a406a6eb',
+    },
+    {
+      classification_name: '新闻阅读',
+      classification_name_en: 'Reading',
+      signature: '449568806',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/1047c000946c414694e44cb3f18a97a6.png',
+      version: '2.42.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/f4ee5769dae746dd8543ff6cbfe74a7d.apk',
+      size: 202828360,
+      name: '学习强国',
+      package_name: 'cn.xuexi.android',
+      ver_code: 24200,
+      classification_id: 14,
+      id: 2036,
+      introduction: '原创优质学习资源',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'f8496a6a8184a269de05af8eac7059e6',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1289280298',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/ee8cddc9b3af4dd2acdd33c5467afc22.png',
+      version: '9.0208.02',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/e536005d1e984392a9b106d058cc4675.apk',
+      size: 58980337,
+      name: '墨迹天气',
+      package_name: 'com.moji.mjweather',
+      ver_code: 9020802,
+      classification_id: 11,
+      id: 2025,
+      introduction: '关心天气，更关心你',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'ace8cc0e0491a4dc45174967d08b4b14',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1268635879',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/4f5b36cdaddc4073ac02063e4adc8948.png',
+      version: '9.5.2.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b47d9429b71b44d7a50928e864cef810.apk',
+      size: 8732042,
+      name: '百度手机助手',
+      package_name: 'com.baidu.appsearch',
+      ver_code: 16798258,
+      classification_id: 11,
+      id: 2031,
+      introduction: '百度手机助手是一款可以下载各种APP的应用',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'd872c2fb2cf87ea34892bfec6e4e9fb1',
+    },
+    {
+      classification_name: '游戏娱乐',
+      classification_name_en: 'Life leisure',
+      signature: '717437069',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/b357bd7c0b8c47d18df74f5d40b60495.png',
+      version: '3.1.5',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/adf27fc0f4654e3089c85d1b898f222c.apk',
+      size: 698657497,
+      name: '弹壳特攻队',
+      package_name: 'com.hd.xxdkhb.and',
+      ver_code: 471,
+      classification_id: 9,
+      id: 2266,
+      introduction:
+        '作为一名极具潜力的人类战士，你将与其他幸存者一起拿起武器，战胜危险的敌人！',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '22ce55040366edde630881c57ee95edb',
+    },
+    {
+      classification_name: '旅游出行',
+      classification_name_en: 'Travel',
+      signature: '1278561572',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/17006e20507d4d29af8f8da7bee9cc74.png',
+      version: '10.2.12',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/1d65eddc56914e23999e3e0647c1be6b.apk',
+      size: 82177159,
+      name: '去哪儿旅行',
+      package_name: 'com.Qunar',
+      ver_code: 297,
+      classification_id: 12,
+      id: 2005,
+      introduction: '去哪旅行-总有你要的低价',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'b95d1b4ccc1acff06a7e6e0ef74e2a11',
+    },
+    {
+      classification_name: '音乐电台',
+      classification_name_en: 'Music',
+      signature: '1070728232',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/4647923245d94b7baa8cbf61eb5630eb.png',
+      version: '9.2.6.3',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/76767e14b0ff4a86aa1af6db1ac7132e.apk',
+      size: 157988489,
+      name: '喜马拉雅手机版',
+      package_name: 'com.ximalaya.ting.android',
+      ver_code: 752,
+      classification_id: 8,
+      id: 2148,
+      introduction: '喜马拉雅，听书、听课、听段子',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'a9bc91987b2f7144fa508c418b7ce74b',
+    },
+    {
+      classification_name: '新闻阅读',
+      classification_name_en: 'Reading',
+      signature: '1199902884',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/c5f9c4426e594910bb939e05741feb78.png',
+      version: '11.4.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/06124e4d5fee42069d15d6fbec601fef.apk',
+      size: 121776658,
+      name: '得到手机版',
+      package_name: 'com.luojilab.player',
+      ver_code: 20240110,
+      classification_id: 14,
+      id: 2159,
+      introduction: '得到，阅读干货图书，听到知识。',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '3c372990b510a3234b67763fefac0a0f',
+    },
+    {
+      classification_name: '社交通讯',
+      classification_name_en: 'Social',
+      signature: '1263464895',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/5f5b7cbbc35f44e095e466d77e5402e2.png',
+      version: '15.3.3',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/725f42c63a3346798e67a94c31a9b3fd.apk',
+      size: 218964648,
+      name: '微博手机版',
+      package_name: 'com.sina.weibo',
+      ver_code: 7294,
+      classification_id: 15,
+      id: 2060,
+      introduction: '发现新鲜事',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '64818bdcab84f22f2f748b9a324d3ad8',
+    },
+    {
+      classification_name: '儿童专区',
+      classification_name_en: 'Children',
+      signature: '1307800816',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/3f0f10678f4349f69c97ef65ab811e63.png',
+      version: '7.29.0905010',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/2dda763f5a014ef8a8dbb84f609512c6.apk',
+      size: 14700624,
+      name: '口袋故事车机版',
+      package_name: 'com.koudaistory.car.byd',
+      ver_code: 599,
+      classification_id: 34,
+      id: 2022,
+      introduction: '打开口袋，快乐趣学',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '1e6f9afc6fd35f07ffef1f7f7c0a047b',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1253981578',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/709694ec34bd4a009d13b0392f7979d8.png',
+      version: '9.0.3',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/0d389b4dee824a45a8689c331cb8dce5.apk',
+      size: 61327729,
+      name: '微鲤万年历',
+      package_name: 'cn.etouch.ecalendar',
+      ver_code: 931,
+      classification_id: 11,
+      id: 2010,
+      introduction: '全球用户数量领先的跨平台日历APP',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'a0e1f5bc8c634159729621cc4ca2d81f',
+    },
+    {
+      classification_name: '新闻阅读',
+      classification_name_en: 'Reading',
+      signature: '1367480178',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/6979f55fea814b7e9c64a40cc2d10b1a.png',
+      version: '8.2.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b1c186c688444ad7af555f536caadf1b.apk',
+      size: 61674910,
+      name: '知乎手机版',
+      package_name: 'com.zhihu.android',
+      ver_code: 8222,
+      classification_id: 14,
+      id: 2009,
+      introduction: '找到能回答你问题的人',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'b9e57759509439786f93d4825d9e6a98',
+    },
+    {
+      classification_name: '社交通讯',
+      classification_name_en: 'Social',
+      signature: '1284642258',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/3371c8ca66b94fdbba8a248bd512a4a8.png',
+      version: '4.1.26',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/676d176bd18647dea71b0edcaa3039c4.apk',
+      size: 442775689,
+      name: '企业微信',
+      package_name: 'com.tencent.wework',
+      ver_code: 29450,
+      classification_id: 15,
+      id: 2030,
+      introduction: '企业微信，是腾讯微信团队为企业打造的企业通讯与办公工具',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'a6bcef9a6cb88cb0e9d0055775b1d5db',
+    },
+    {
+      classification_name: '游戏娱乐',
+      classification_name_en: 'Life leisure',
+      signature: '1307676864',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/6d5e306547534227b3679fe0cb4d8649.png',
+      version: '5.03.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/8206572fc98941e8960cb76268b24365.apk',
+      size: 409271165,
+      name: '地铁跑酷',
+      package_name: 'com.kiloo.subwaysurf',
+      ver_code: 50300,
+      classification_id: 9,
+      id: 2188,
+      introduction: '观赏城市风采，随时随地来一局',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '8bd2e9b04d5a688d37887d62c16fa4af',
+    },
+    {
+      classification_name: '新闻阅读',
+      classification_name_en: 'Reading',
+      signature: '1291084002',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/6a9989c1f78f4bafa23662df7ffc03f7.png',
+      version: '7.4.87',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b80b56a724a34b40b8e0a5ac788db4cf.apk',
+      size: 73623642,
+      name: '腾讯新闻',
+      package_name: 'com.tencent.news',
+      ver_code: 7487,
+      classification_id: 14,
+      id: 2244,
+      introduction: '腾讯新闻一款拥有7x24小时全方位新闻报道的新闻产品',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'db396c5b70ebdf0304dd8b0e9cae3e94',
+    },
+    {
+      classification_name: '游戏娱乐',
+      classification_name_en: 'Life leisure',
+      signature: '1760972465',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/c2ff90e5fb4f4dfdb77435ad26e658ec.png',
+      version: '1.8.20',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/165006a99c554995a3d72e406f49ebab.apk',
+      size: 2104321447,
+      name: '金铲铲之战',
+      package_name: 'com.tencent.jkchess',
+      ver_code: 1056,
+      classification_id: 9,
+      id: 2274,
+      introduction: '自动战斗品类手游',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '0dccaf59db408b0034e0fee36c28afd7',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1287545350',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/caf8b19e080b4278bc7a7fd58dbb97f0.png',
+      version: '8.66.4',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/5343de2f32394f84a0a86a36f803684c.apk',
+      size: 97515198,
+      name: '携程旅行',
+      package_name: 'ctrip.android.view',
+      ver_code: 1749,
+      classification_id: 11,
+      id: 2006,
+      introduction: '携程在手，说走就走',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '6adbb57a9af5ae6b7608b561a1e59010',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1356969595',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/4ce2b920ef2b47fdb21222d0ed5f7c03.png',
+      version: '6.5.4',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/5468c10094f44cbfa591d85535106d78.apk',
+      size: 93752337,
+      name: 'QQ邮箱',
+      package_name: 'com.tencent.androidqqmail',
+      ver_code: 10161662,
+      classification_id: 11,
+      id: 2034,
+      introduction: '全面管理你的所有邮箱',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'd0b23feaed0210da01557ab6f61abc55',
+    },
+    {
+      classification_name: '交通导航',
+      classification_name_en: 'Navigation',
+      signature: '1334191723',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/9ebc64495ea9488a83a4ffd1f5699127.png',
+      version: '10.0.3',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/fa140413f3844dcdb81ce3b8bff2bca6.apk',
+      size: 109724899,
+      name: '奥维互动地图手机版',
+      package_name: 'com.ovital.ovitalMap',
+      ver_code: 1003,
+      classification_id: 7,
+      id: 2260,
+      introduction: '高清卫星地图',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '4825f49b908cc0fe9a98a76377ea966e',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1667007681',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/c3a21fb91ddc49269f2e9d6086c93052.png',
+      version: '4.29.1',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/fb16665d072048d78f8977fc3e5026bb.apk',
+      size: 95234252,
+      name: '平安好车主',
+      package_name: 'com.pingan.carowner',
+      ver_code: 4093,
+      classification_id: 11,
+      id: 2029,
+      introduction: '平安好车主-用车助手，安全管家',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '1809c95d25704d3facdccf62fc2ce6f1',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '1461658304',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/0faefe84fe264ec9b8c80a839a3a8add.png',
+      version: '3.7.050',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/177694645ed74c9182eb0acf52849f83.apk',
+      size: 96785722,
+      name: 'e充电',
+      package_name: 'com.sgcc.evs.echarge',
+      ver_code: 3072050,
+      classification_id: 11,
+      id: 2027,
+      introduction: '为车主提供智能找桩、扫码充电、行程规划、评论互动',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '3eeb3447f2f96d9a16272f0ab8134a34',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '432819593069673712843483681982676869592388184650',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/53f530b5a5b44ff3b904ced81e86725c.png',
+      version: 'V1.0.37_202412121621',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/c2ea368968314c598c8db1a0c5d6eba7.apk',
+      size: 145583661,
+      name: '试乘试驾',
+      package_name: 'com.byd.testdrive',
+      ver_code: 38,
+      classification_id: 11,
+      id: 2191,
+      introduction: '欢迎试驾仰望汽车，仅限试驾车使用',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'a001a285a8968efccd5dc250dc528cec',
+    },
+    {
+      classification_name: '购物生活',
+      classification_name_en: 'Shopping',
+      signature: '1250214357',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/91fd08b25b9242d4a24e5e79c725f47c.png',
+      version: '11.22.13',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/8fe398df51314771b95132288da1149d.apk',
+      size: 79596739,
+      name: '大众点评',
+      package_name: 'com.dianping.v1',
+      ver_code: 112213,
+      classification_id: 32,
+      id: 2271,
+      introduction: '大众点评APP是全世界最早的消费点评网站',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '1ac741e2a50bed2cb97ce49356fed4ba',
+    },
+    {
+      classification_name: '新闻阅读',
+      classification_name_en: 'Reading',
+      signature: '1271668944',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/417be10a68f844d2ad301728e2f60249.png',
+      version: '6.7.3.1',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/c9bfaa617d5443baa805a42c1c21279a.apk',
+      size: 41600269,
+      name: '搜狐新闻',
+      package_name: 'com.sohu.newsclient',
+      ver_code: 791,
+      classification_id: 14,
+      id: 2028,
+      introduction: '新闻热榜实时更新，迅速了解当下热点',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '5801508d6437e7bf07e8058568e6ca08',
+    },
+    {
+      classification_name: '视频播放',
+      classification_name_en: 'Video play',
+      signature: '1351582188',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/photo/5b35e1b8ce5d474db36d3f124e35527b.png',
+      version: '7.6.2',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/3e1841ce3a9449bab4b682185af229c2.apk',
+      size: 38301292,
+      name: '央视影音HD',
+      package_name: 'cn.cntvhd',
+      ver_code: 70620,
+      classification_id: 13,
+      id: 1701,
+      introduction: '央视影音HD是专为安卓pad用户打造的影视播放器软件',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: '36858c3b0f8a370c39ba6d43d2390db5',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '348203504983439317346561049307126674455948088476',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/software/9438553df037431e9fcd3cf128fddb84.png',
+      version: 'v1.11.230809.2',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/374c2e246f0e40a19c2be8fb12490444.apk',
+      size: 25659054,
+      name: '车生活小程序',
+      package_name: 'com.byd.miniprogram',
+      ver_code: 13,
+      classification_id: 11,
+      id: 2154,
+      introduction: '车生活小程序，你的用车生活小管家',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'a2a54bc934f48ee2b72920ea6f12b49a',
+    },
+    {
+      classification_name: '常用工具',
+      classification_name_en: 'Tools',
+      signature: '432819593069673712843483681982676869592388184650',
+      icon: 'https://byd-store-cdn-rel.byd.auto/product/icon/13989bd74288416da3a714fa8631c890.png',
+      version: '1.8.0',
+      download:
+        'https://byd-store-cdn-rel.byd.auto/product/software/b0aec92f79634227bb650b7c5aca2acc.apk',
+      size: 33827824,
+      name: '儿童座椅',
+      package_name: 'com.maxinf.car',
+      ver_code: 9,
+      classification_id: 11,
+      id: 2224,
+      introduction:
+        '帮助用户连接智能儿童安全座椅，通过BLE低功耗蓝牙连接，检测儿童安全座椅的安装状态及环境情况；用户还可以控制智能儿童安全座椅，改善儿童的乘坐体验，如散热通风、座椅加热。',
+      sys_version_code: null,
+      originalIcon: null,
+      optionalIcon: null,
+      md5: 'df2ed7600b576eb56cc2decc8c3682b9',
+    },
+  ],
+};
+
+function AppStore(): JSX.Element {
+  const [category, setCategory] = useState(categories[0].id.toString());
+  const title = categories.find(item => item.id.toString() === category)?.name;
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+      <main className="flex min-h-screen w-full max-w-4xl flex-col items-center justify-between p-16 bg-white dark:bg-black sm:items-start">
+        <ToggleGroup
+          value={category}
+          type="single"
+          variant="outline"
+          onValueChange={setCategory}
+        >
+          {categories.map(item => (
+            <ToggleGroupItem
+              className="cursor-pointer"
+              key={item.id}
+              value={item.id.toString()}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+              {item.name}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+        <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl my-10">
+          {title}
+        </h1>
+        <ItemGroup className="gap-6">
+          {response.data.map(item => (
+            <Item key={item.id} variant="outline">
+              <ItemMedia>
+                <Image
+                  className="rounded-md"
+                  src={item.icon}
+                  alt={item.name}
+                  width={64}
+                  height={64}
+                />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>{item.name}</ItemTitle>
+                <ItemDescription>{item.version}</ItemDescription>
+                <ItemDescription>{item.introduction}</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Button
+                  className="cursor-pointer"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => location.assign(item.download)}
+                >
+                  下载
+                </Button>
+              </ItemActions>
+            </Item>
+          ))}
+        </ItemGroup>
       </main>
     </div>
   );
 }
+
+export default AppStore;
