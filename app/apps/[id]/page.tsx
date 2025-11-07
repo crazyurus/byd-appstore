@@ -146,54 +146,56 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
         <TabsContent value="detail">
           <FieldGroup className="mt-3">
             <div className="grid grid-cols-3 gap-8">
+              {detail.app_developer ? (
+                <Field>
+                  <FieldLabel>开发者</FieldLabel>
+                  <div>{detail.app_developer}</div>
+                </Field>
+              ) : null}
+              {detail.icp ? (
+                <Field>
+                  <FieldLabel>备案号</FieldLabel>
+                  <div>{detail.icp}</div>
+                </Field>
+              ) : null}
               <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">开发者</FieldLabel>
-                <div>{detail.app_developer}</div>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">备案号</FieldLabel>
-                <div>{detail.icp}</div>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">
-                  发布时间
-                </FieldLabel>
+                <FieldLabel>发布时间</FieldLabel>
                 <div>{formatDateTime(new Date(detail.add_time))}</div>
               </Field>
               <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">包名</FieldLabel>
+                <FieldLabel>包名</FieldLabel>
                 <div>{detail.appInfo.package_name}</div>
               </Field>
               <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">版本</FieldLabel>
+                <FieldLabel>版本</FieldLabel>
                 <div>{detail.appInfo.version}</div>
               </Field>
               <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">大小</FieldLabel>
+                <FieldLabel>大小</FieldLabel>
                 <div>{formatSize(detail.appInfo.size)}</div>
               </Field>
               <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">兼容性</FieldLabel>
+                <FieldLabel>兼容性</FieldLabel>
                 <div>Android {detail.sdk} 及以上</div>
               </Field>
               <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">评分</FieldLabel>
+                <FieldLabel>评分</FieldLabel>
                 <div className="flex text-yellow-500">
                   {Array(detail.score).fill(<Star />)}
                 </div>
               </Field>
-              <Field>
-                <FieldLabel htmlFor="checkout-exp-month-ts6">
-                  隐私协议
-                </FieldLabel>
-                <Link
-                  className="text-blue-500"
-                  href={detail.privacy_policy}
-                  target="_blank"
-                >
-                  查看
-                </Link>
-              </Field>
+              {detail.privacy_policy ? (
+                <Field>
+                  <FieldLabel>隐私协议</FieldLabel>
+                  <Link
+                    className="text-blue-500"
+                    href={detail.privacy_policy}
+                    target="_blank"
+                  >
+                    查看
+                  </Link>
+                </Field>
+              ) : null}
             </div>
           </FieldGroup>
         </TabsContent>

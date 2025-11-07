@@ -26,7 +26,7 @@ interface Props {
 async function AppStore(props: Props): Promise<JSX.Element> {
   const searchParams = await props.searchParams;
   const category = searchParams.category || categories[0].id.toString();
-  const platform = searchParams.platform || '5';
+  const platform = searchParams.platform || '4';
   const title = categories.find(item => item.id.toString() === category)?.name;
   const apps = await getList(category, platform);
 

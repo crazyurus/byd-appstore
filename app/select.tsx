@@ -36,11 +36,7 @@ function SelectPlatform(props: Props): JSX.Element {
         <SelectGroup>
           <SelectLabel>DiLink 平台</SelectLabel>
           {platforms.map((item, index) => (
-            <SelectItem
-              key={item.platform}
-              value={(index + 1).toString()}
-              disabled={!item.enable}
-            >
+            <SelectItem key={item.platform} value={(index + 1).toString()}>
               {item.platform}
             </SelectItem>
           ))}
