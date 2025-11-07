@@ -1,0 +1,30 @@
+[
+  {
+    "platform": "DiLink 2.1",
+    "enable": false
+  },
+  {
+    "platform": "DiLink 3.0",
+    "enable": true
+  },
+  {
+    "platform": "DiLink 4.0",
+    "enable": false
+  },
+  {
+    "platform": "DiLink 5.0",
+    "enable": false
+  },
+  {
+    "platform": "DiLink 5.1",
+    "enable": true
+  },
+  {
+    "platform": "DiLink 6.0",
+    "enable": true
+  },
+  {
+    "platform": "DiLink 300",
+    "enable": false
+  }
+]

@@ -1,20 +1,27 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import categories from './category.json';
+import categories from './data/category.json';
 import { JSX } from 'react';
 
-function Toggle(): JSX.Element {
+interface Props {
+  category: string;
+}
+
+function Toggle(props: Props): JSX.Element {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const handleChange = (value: string) => {
-    router.push(`?category=${value}`);
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.set('category', value);
+
+    router.push('?' + searchParams.toString());
   };
 
   return (
     <ToggleGroup
-      value={searchParams.get('category') || categories[0].id.toString()}
+      value={props.category}
       type="single"
       variant="outline"
       onValueChange={handleChange}

@@ -15,15 +15,18 @@ function calcSignature(json: string): string {
   return crypto.createHash('md5').update(source, 'utf8').digest('hex');
 }
 
-export async function getData(category: string): Promise<App[]> {
+export async function getData(
+  category: string,
+  platform: string
+): Promise<App[]> {
   'use server';
 
   const params = {
     category,
     limit: '50',
     offset: '0',
-    token: process.env.JWT_TOKEN!,
-    vehicle: '346',
+    token: process.env[`JWT_TOKEN_${platform}`]!,
+    vehicle: '1',
   };
   const json = JSON.stringify(params);
   const response = await fetch(process.env.APP_STORE_URL!, {
