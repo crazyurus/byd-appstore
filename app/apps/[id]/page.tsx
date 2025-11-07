@@ -16,11 +16,11 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { getDetail } from '../../lib/data';
 import NavigateBack from './back';
+import Images from './images';
 
 interface Props {
   params: {
@@ -98,30 +98,23 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
       </div>
       <Tabs className="mt-8 w-full grow" defaultValue="introduction">
         <TabsList>
-          <TabsTrigger value="introduction">介绍</TabsTrigger>
-          <TabsTrigger value="detail">详情</TabsTrigger>
-          <TabsTrigger value="permission">权限</TabsTrigger>
-          <TabsTrigger value="changelog">更新日志</TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="introduction">
+            介绍
+          </TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="detail">
+            详情
+          </TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="permission">
+            权限
+          </TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="changelog">
+            更新日志
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="introduction">
           <div className="mt-3 whitespace-pre-wrap">{decode(detail.description.replaceAll('&amp;', '&'))}</div>
           <div className="mt-4 w-full">
-            <ScrollArea className="rounded-md border whitespace-nowrap">
-              <div className="flex w-max space-x-4 p-4">
-                {detail.images.map(item => (
-                  <figure key={item.image_path} className="shrink-0">
-                    <Image
-                      src={item.image_path}
-                      alt="screenshot"
-                      className="aspect-[16/9] h-fit w-fit object-cover rounded-md"
-                      width={320}
-                      height={180}
-                    />
-                  </figure>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
+            <Images images={detail.images.map(item => item.image_path)} />
           </div>
         </TabsContent>
         <TabsContent value="detail">
@@ -179,7 +172,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
             {detail.permissions.map(item => (
               <AccordionItem key={item.permission_en} value={item.permission_en}>
                 <AccordionTrigger>
-                  <div className="flex grow justify-between">
+                  <div className="flex grow justify-between cursor-pointer">
                     <div>{item.permission_cn}</div>
                     <div className="font-normal text-muted-foreground">{item.permission_en}</div>
                   </div>

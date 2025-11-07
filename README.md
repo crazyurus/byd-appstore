@@ -22,4 +22,4 @@ For more information, see the [Next.js](https://nextjs.org/docs/app).
 
 ## License
 
-[MIT](./LICENSE)
+[GPL-3.0](./LICENSE)
