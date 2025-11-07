@@ -1,5 +1,7 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import type { JSX, PropsWithChildren } from 'react';
 
 import './globals.css';
 
@@ -18,20 +20,17 @@ export const metadata: Metadata = {
   description: ''
 };
 
-function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+function RootLayout(props: PropsWithChildren): JSX.Element {
   return (
     <html lang="zh-CN">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
           <main className="flex min-h-screen w-full max-w-[939px] flex-col p-16 bg-white dark:bg-black sm:items-start shadow-2xl">
-            {children}
+            {props.children}
             <div className="mt-10 text-muted-foreground">&copy; Cr4zy Uru5</div>
           </main>
         </div>
+        <Analytics />
       </body>
     </html>
   );
