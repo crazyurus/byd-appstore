@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: '应用市场',
+  title: 'BYD 应用市场',
   description: '',
 };
 
@@ -27,7 +27,12 @@ function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+          <main className="flex min-h-screen w-full max-w-[939px] flex-col p-16 bg-white dark:bg-black sm:items-start">
+            {children}
+            <div className="mt-10">&copy; Cr4zy Uru5</div>
+          </main>
+        </div>
       </body>
     </html>
   );
