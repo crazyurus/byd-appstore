@@ -14,7 +14,7 @@ import ActionButton from './action';
 import SelectPlatform from './select';
 import Toggle from './toggle';
 import categories from './data/category.json';
-import { getData } from './lib/data';
+import { getList } from './lib/data';
 
 interface Props {
   searchParams: {
@@ -28,7 +28,7 @@ async function AppStore(props: Props): Promise<JSX.Element> {
   const category = searchParams.category || categories[0].id.toString();
   const platform = searchParams.platform || '5';
   const title = categories.find(item => item.id.toString() === category)?.name;
-  const apps = await getData(category, platform);
+  const apps = await getList(category, platform);
 
   return (
     <>

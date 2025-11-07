@@ -1,4 +1,31 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { Download, Star } from 'lucide-react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+
+import { decode } from 'html-entities';
+import { getDetail } from '../../lib/data';
+import NavigateBack from './back';
 import { JSX } from 'react';
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 interface Props {
   params: {
@@ -6,8 +33,198 @@ interface Props {
   };
 }
 
-function AppDetail(props: Props): JSX.Element {
-  return <>{JSON.stringify(props)}</>;
+function formatSize(bytes: number): string {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+  let size = bytes;
+
+  while (size >= 1024 && i < units.length - 1) {
+    size /= 1024;
+    i++;
+  }
+
+  return `${size.toFixed(size >= 10 ? 0 : 1)} ${units[i]}`;
+}
+
+function formatDateTime(date: Date): string {
+  return date.toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+}
+
+function addNumberSeparator(count: number): string {
+  return count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+async function AppDetail(props: Props): Promise<JSX.Element> {
+  const params = await props.params;
+  const detail = await getDetail(params.id);
+
+  return (
+    <>
+      <Breadcrumb className="mb-6">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <NavigateBack>应用列表</NavigateBack>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{detail.appInfo.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="flex gap-8">
+        <div className="shrink-0">
+          <Image
+            className="rounded-md border"
+            width={120}
+            height={120}
+            src={detail.appInfo.icon}
+            alt="app-icon"
+          />
+        </div>
+        <div className="grow">
+          <div className="flex items-center gap-3">
+            <div className="text-xl font-bold">{detail.appInfo.name}</div>
+            <Badge variant="secondary">
+              {detail.appInfo.classification_name}
+            </Badge>
+          </div>
+          <div className="mt-1 text-muted-foreground">
+            {detail.appInfo.introduction}
+          </div>
+          <div className="flex items-center gap-4 mt-7">
+            <Button className="cursor-pointer" asChild>
+              <Link href={detail.appInfo.download}>
+                <Download />
+                下载
+              </Link>
+            </Button>
+            <div className="text-sm text-muted-foreground">
+              {addNumberSeparator(detail.download_counts)} 次下载
+            </div>
+          </div>
+        </div>
+      </div>
+      <Tabs className="mt-8 w-full grow" defaultValue="introduction">
+        <TabsList>
+          <TabsTrigger value="introduction">介绍</TabsTrigger>
+          <TabsTrigger value="detail">详情</TabsTrigger>
+          <TabsTrigger value="permission">权限</TabsTrigger>
+          <TabsTrigger value="changelog">更新日志</TabsTrigger>
+        </TabsList>
+        <TabsContent value="introduction">
+          <div className="mt-3 whitespace-pre-wrap">
+            {decode(detail.description.replaceAll('&amp;', '&'))}
+          </div>
+          <div className="mt-4 w-full">
+            <ScrollArea className="rounded-md border whitespace-nowrap">
+              <div className="flex w-max space-x-4 p-4">
+                {detail.images.map(item => (
+                  <figure key={item.image_path} className="shrink-0">
+                    <Image
+                      src={item.image_path}
+                      alt="screenshot"
+                      className="aspect-[16/9] h-fit w-fit object-cover rounded-md"
+                      width={320}
+                      height={180}
+                    />
+                  </figure>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+        </TabsContent>
+        <TabsContent value="detail">
+          <FieldGroup className="mt-3">
+            <div className="grid grid-cols-3 gap-8">
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">开发者</FieldLabel>
+                <div>{detail.app_developer}</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">备案号</FieldLabel>
+                <div>{detail.icp}</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">
+                  发布时间
+                </FieldLabel>
+                <div>{formatDateTime(new Date(detail.add_time))}</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">包名</FieldLabel>
+                <div>{detail.appInfo.package_name}</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">版本</FieldLabel>
+                <div>{detail.appInfo.version}</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">大小</FieldLabel>
+                <div>{formatSize(detail.appInfo.size)}</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">兼容性</FieldLabel>
+                <div>Android {detail.sdk} 及以上</div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">评分</FieldLabel>
+                <div className="flex text-yellow-500">
+                  {Array(detail.score).fill(<Star />)}
+                </div>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-exp-month-ts6">
+                  隐私协议
+                </FieldLabel>
+                <Link
+                  className="text-blue-500"
+                  href={detail.privacy_policy}
+                  target="_blank"
+                >
+                  查看
+                </Link>
+              </Field>
+            </div>
+          </FieldGroup>
+        </TabsContent>
+        <TabsContent value="permission">
+          <Accordion type="single" collapsible className="w-full">
+            {detail.permissions.map(item => (
+              <AccordionItem
+                key={item.permission_en}
+                value={item.permission_en}
+              >
+                <AccordionTrigger>
+                  <div className="flex grow justify-between">
+                    <div>{item.permission_cn}</div>
+                    <div className="font-normal text-muted-foreground">
+                      {item.permission_en}
+                    </div>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col gap-4 text-balance">
+                  {item.permission_intro}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </TabsContent>
+        <TabsContent value="changelog">
+          <div className="mt-3">{detail.updata_message}</div>
+        </TabsContent>
+      </Tabs>
+    </>
+  );
 }
 
 export default AppDetail;
