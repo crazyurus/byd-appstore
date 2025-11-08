@@ -47,8 +47,6 @@ function calcSignature(json: string): string {
 }
 
 export async function getList(category: string, platform: string): Promise<App[]> {
-  'use server';
-
   const params = {
     category,
     limit: '50',
@@ -71,8 +69,6 @@ export async function getList(category: string, platform: string): Promise<App[]
 }
 
 export async function getDetail(id: string): Promise<AppDetail> {
-  'use server';
-
   const params = {
     software: id,
     token: process.env[`JWT_TOKEN_5`]!,
