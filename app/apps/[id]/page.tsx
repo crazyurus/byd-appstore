@@ -1,5 +1,6 @@
 import { decode } from 'html-entities';
 import { Download, Star } from 'lucide-react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { JSX } from 'react';
@@ -54,6 +55,16 @@ function formatDateTime(date: Date): string {
 
 function addNumberSeparator(count: number): string {
   return count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+  const detail = await getDetail(params.id);
+
+  return {
+    title: detail.appInfo.name,
+    description: detail.appInfo.introduction
+  };
 }
 
 async function AppDetail(props: Props): Promise<JSX.Element> {
