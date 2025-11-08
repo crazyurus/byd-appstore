@@ -91,8 +91,10 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
             <div className="sm:text-xl text-lg font-bold">{detail.appInfo.name}</div>
             <Badge variant="secondary">{detail.appInfo.classification_name}</Badge>
           </div>
-          <div className="mt-1 text-muted-foreground line-clamp-2">{detail.appInfo.introduction}</div>
-          <div className="flex items-center gap-4 mt-7 sm:static sm:p-0 sm:border-t-0 fixed left-0 bottom-0 border-t w-full px-8 py-4 bg-white">
+          <div className="mt-1 text-muted-foreground line-clamp-2 sm:text-base text-sm">
+            {detail.appInfo.introduction}
+          </div>
+          <div className="flex items-center gap-4 mt-7 sm:static sm:p-0 sm:border-t-0 fixed left-0 bottom-0 border-t w-full px-8 py-4 bg-white z-10">
             <Button className="cursor-pointer" asChild>
               <Link href={detail.appInfo.download}>
                 <Download />

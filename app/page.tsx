@@ -46,8 +46,8 @@ async function AppStore(props: Props): Promise<JSX.Element> {
                 </ItemMedia>
                 <ItemContent>
                   <ItemTitle>{item.name}</ItemTitle>
-                  <ItemDescription>{item.version}</ItemDescription>
-                  <ItemDescription className="line-clamp-1 break-all">{item.introduction}</ItemDescription>
+                  <ItemDescription className="text-xs">{item.version}</ItemDescription>
+                  <ItemDescription className="mt-1 line-clamp-1 break-all">{item.introduction}</ItemDescription>
                 </ItemContent>
               </div>
               <ItemActions>

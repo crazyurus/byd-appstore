@@ -6,7 +6,9 @@ import { JSX, type PropsWithChildren } from 'react';
 function NavigateBack(props: PropsWithChildren): JSX.Element {
   const router = useRouter();
   const handleClick = () => {
-    if (navigation.canGoBack) {
+    const canGoBack = navigation ? navigation.canGoBack : history.length > 1;
+
+    if (canGoBack) {
       router.back();
     } else {
       router.replace('/');
