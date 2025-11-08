@@ -75,17 +75,23 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex gap-8">
+      <div className="flex sm:gap-8 gap-4">
         <div className="shrink-0">
-          <Image className="rounded-md border" width={120} height={120} src={detail.appInfo.icon} alt="app-icon" />
+          <Image
+            className="rounded-md border sm:w-30 sm:h-30 w-20 h-20"
+            width={120}
+            height={120}
+            src={detail.appInfo.icon}
+            alt="app-icon"
+          />
         </div>
         <div className="grow">
           <div className="flex items-center gap-3">
-            <div className="text-xl font-bold">{detail.appInfo.name}</div>
+            <div className="sm:text-xl text-lg font-bold">{detail.appInfo.name}</div>
             <Badge variant="secondary">{detail.appInfo.classification_name}</Badge>
           </div>
-          <div className="mt-1 text-muted-foreground">{detail.appInfo.introduction}</div>
-          <div className="flex items-center gap-4 mt-7">
+          <div className="mt-1 text-muted-foreground line-clamp-2">{detail.appInfo.introduction}</div>
+          <div className="flex items-center gap-4 mt-7 sm:static sm:p-0 sm:border-t-0 fixed left-0 bottom-0 border-t w-full px-8 py-4 bg-white">
             <Button className="cursor-pointer" asChild>
               <Link href={detail.appInfo.download}>
                 <Download />
@@ -107,9 +113,6 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
           <TabsTrigger className="cursor-pointer" value="permission">
             权限
           </TabsTrigger>
-          <TabsTrigger className="cursor-pointer" value="changelog">
-            更新日志
-          </TabsTrigger>
         </TabsList>
         <TabsContent value="introduction">
           <div className="mt-3 whitespace-pre-wrap">{decode(detail.description.replaceAll('&amp;', '&'))}</div>
@@ -119,7 +122,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
         </TabsContent>
         <TabsContent value="detail">
           <FieldGroup className="mt-3">
-            <div className="grid grid-cols-3 gap-8">
+            <div className="flex flex-col gap-4 sm:grid sm:grid-cols-3 sm:gap-8 ">
               {detail.app_developer ? (
                 <Field>
                   <FieldLabel>开发者</FieldLabel>
@@ -174,7 +177,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
                 <AccordionTrigger>
                   <div className="flex grow justify-between cursor-pointer">
                     <div>{item.permission_cn}</div>
-                    <div className="font-normal text-muted-foreground">{item.permission_en}</div>
+                    <div className="font-normal text-muted-foreground hidden sm:block">{item.permission_en}</div>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
@@ -183,9 +186,6 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
               </AccordionItem>
             ))}
           </Accordion>
-        </TabsContent>
-        <TabsContent value="changelog">
-          <div className="mt-3">{detail.updata_message}</div>
         </TabsContent>
       </Tabs>
     </>

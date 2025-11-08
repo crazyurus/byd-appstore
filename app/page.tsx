@@ -27,27 +27,29 @@ async function AppStore(props: Props): Promise<JSX.Element> {
   return (
     <>
       <Toggle category={category} />
-      <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl mt-10 mb-4">{title}</h1>
+      <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight mt-10 mb-4">{title}</h1>
       <SelectPlatform platform={platform} />
       <ItemGroup className="mt-4 w-full gap-6">
         {apps.map(item => (
-          <Item key={item.id} variant="outline" asChild>
+          <Item className="sm:flex-row" key={item.id} variant="outline" asChild>
             <Link href={`/apps/${item.id}`}>
-              <ItemMedia>
-                <Image
-                  className="border rounded-md"
-                  src={item.icon}
-                  alt={item.name}
-                  width={64}
-                  height={64}
-                  loading="lazy"
-                />
-              </ItemMedia>
-              <ItemContent>
-                <ItemTitle>{item.name}</ItemTitle>
-                <ItemDescription>{item.version}</ItemDescription>
-                <ItemDescription className="line-clamp-1 break-all">{item.introduction}</ItemDescription>
-              </ItemContent>
+              <div className="flex gap-4 grow">
+                <ItemMedia>
+                  <Image
+                    className="border rounded-md w-16 h-16"
+                    src={item.icon}
+                    alt={item.name}
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                  />
+                </ItemMedia>
+                <ItemContent>
+                  <ItemTitle>{item.name}</ItemTitle>
+                  <ItemDescription>{item.version}</ItemDescription>
+                  <ItemDescription className="line-clamp-1 break-all">{item.introduction}</ItemDescription>
+                </ItemContent>
+              </div>
               <ItemActions>
                 <ActionButton url={item.download} />
               </ItemActions>

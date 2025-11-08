@@ -22,7 +22,12 @@ function Toggle(props: Props): JSX.Element {
   };
 
   return (
-    <ToggleGroup value={props.category} type="single" variant="outline" onValueChange={handleChange}>
+    <ToggleGroup
+      className="flex-wrap"
+      value={props.category}
+      type="single"
+      variant="outline"
+      onValueChange={handleChange}>
       {categories.map(item => (
         <ToggleGroupItem className="cursor-pointer" key={item.id} value={item.id.toString()}>
           {item.name}
