@@ -29,12 +29,12 @@ function Images(props: Props): JSX.Element {
             <Dialog key={item}>
               <DialogTrigger asChild>
                 <Image
-                  loading="lazy"
                   src={item}
                   alt="screenshot"
-                  className="border object-cover rounded-md cursor-pointer"
+                  className="border object-cover rounded-md cursor-pointer bg-gray-50"
                   width={320}
                   height={180}
+                  loading="lazy"
                 />
               </DialogTrigger>
               <DialogContent>
@@ -43,12 +43,12 @@ function Images(props: Props): JSX.Element {
                 </DialogHeader>
                 <Image
                   key={item}
-                  loading="lazy"
                   src={item}
                   alt="screenshot"
                   className="object-cover"
                   width={462}
                   height={260}
+                  loading="lazy"
                 />
                 <DialogFooter>
                   <DialogClose asChild>

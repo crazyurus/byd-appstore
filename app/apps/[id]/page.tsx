@@ -78,11 +78,12 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
       <div className="flex sm:gap-8 gap-4">
         <div className="shrink-0">
           <Image
-            className="rounded-md border sm:w-30 sm:h-30 w-20 h-20"
+            className="rounded-md border sm:w-30 sm:h-30 w-20 h-20 bg-gray-50"
             width={120}
             height={120}
             src={detail.appInfo.icon}
             alt="app-icon"
+            loading="eager"
           />
         </div>
         <div className="grow">
