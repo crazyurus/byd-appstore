@@ -31,7 +31,7 @@ function Images(props: Props): JSX.Element {
                 <Image
                   src={item}
                   alt="screenshot"
-                  className="snap-start scroll-ml-8 sm:scroll-ml-0 border object-cover rounded-md cursor-pointer bg-gray-50 dark:bg-gray-800 w-[288px]"
+                  className="snap-start scroll-ml-8 sm:scroll-ml-0 border object-cover rounded-md cursor-pointer bg-gray-50 dark:bg-gray-800 shrink-0"
                   width={288}
                   height={162}
                   loading="lazy"
@@ -45,7 +45,7 @@ function Images(props: Props): JSX.Element {
                   key={item}
                   src={item}
                   alt="screenshot"
-                  className="object-cover w-[462px]"
+                  className="object-cover"
                   width={462}
                   height={260}
                   loading="lazy"
