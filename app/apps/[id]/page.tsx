@@ -130,7 +130,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
         </TabsList>
         <TabsContent value="introduction">
           <div className="mt-3 whitespace-pre-wrap">{decode(detail.description.replaceAll('&amp;', '&'))}</div>
-          <div className="mt-4 w-full">
+          <div className="mt-4 -mx-8 sm:mx-0">
             <Images images={detail.images.map(item => item.image_path)} />
           </div>
         </TabsContent>
