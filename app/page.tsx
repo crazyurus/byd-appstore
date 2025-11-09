@@ -36,7 +36,7 @@ async function AppStore(props: Props): Promise<JSX.Element> {
               <div className="flex gap-4 grow">
                 <ItemMedia>
                   <Image
-                    className="border rounded-md w-16 h-16 bg-gray-50"
+                    className="border rounded-md w-16 h-16 bg-gray-50 dark:bg-gray-800"
                     src={item.icon}
                     alt={item.name}
                     width={64}
@@ -45,9 +45,9 @@ async function AppStore(props: Props): Promise<JSX.Element> {
                   />
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle>{item.name}</ItemTitle>
+                  <ItemTitle className="text-base">{item.name}</ItemTitle>
                   <ItemDescription className="text-xs">{item.version}</ItemDescription>
-                  <ItemDescription className="mt-1 line-clamp-1 break-all">{item.introduction}</ItemDescription>
+                  <ItemDescription className="line-clamp-1 break-all">{item.introduction}</ItemDescription>
                 </ItemContent>
               </div>
               <ItemActions>

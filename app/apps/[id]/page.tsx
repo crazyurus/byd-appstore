@@ -89,7 +89,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
       <div className="flex sm:gap-8 gap-4">
         <div className="shrink-0">
           <Image
-            className="rounded-md border sm:w-30 sm:h-30 w-20 h-20 bg-gray-50"
+            className="rounded-md border sm:w-30 sm:h-30 w-20 h-20 bg-gray-50 dark:bg-gray-800"
             width={120}
             height={120}
             src={detail.appInfo.icon}
@@ -105,7 +105,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
           <div className="mt-1 text-muted-foreground line-clamp-2 sm:text-base text-sm">
             {detail.appInfo.introduction}
           </div>
-          <div className="flex items-center gap-4 mt-7 sm:static sm:p-0 sm:border-t-0 fixed left-0 bottom-0 border-t w-full px-8 py-4 bg-white z-10">
+          <div className="flex items-center gap-4 mt-7 sm:static sm:p-0 sm:border-t-0 fixed left-0 bottom-0 border-t w-full px-8 py-4 bg-white dark:bg-zinc-950 z-10">
             <Button className="cursor-pointer" asChild>
               <Link href={detail.appInfo.download}>
                 <Download />
@@ -171,12 +171,12 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
               </Field>
               <Field>
                 <FieldLabel>评分</FieldLabel>
-                <div className="flex text-yellow-500">{Array(detail.score).fill(<Star />)}</div>
+                <div className="flex text-yellow-500 dark:text-yellow-400">{Array(detail.score).fill(<Star />)}</div>
               </Field>
               {detail.privacy_policy ? (
                 <Field>
                   <FieldLabel>隐私协议</FieldLabel>
-                  <Link className="text-blue-500" href={detail.privacy_policy} target="_blank">
+                  <Link className="text-blue-500 dark:text-blue-400" href={detail.privacy_policy} target="_blank">
                     查看
                   </Link>
                 </Field>

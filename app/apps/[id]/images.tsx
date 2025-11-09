@@ -31,7 +31,7 @@ function Images(props: Props): JSX.Element {
                 <Image
                   src={item}
                   alt="screenshot"
-                  className="border object-cover rounded-md cursor-pointer bg-gray-50 w-[288px]"
+                  className="border object-cover rounded-md cursor-pointer bg-gray-50 dark:bg-gray-800 w-[288px]"
                   width={288}
                   height={162}
                   loading="lazy"
