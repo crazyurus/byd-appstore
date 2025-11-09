@@ -24,16 +24,16 @@ function Images(props: Props): JSX.Element {
   return (
     <>
       <ScrollArea className="whitespace-nowrap">
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           {images.map(item => (
             <Dialog key={item}>
               <DialogTrigger asChild>
                 <Image
                   src={item}
                   alt="screenshot"
-                  className="border object-cover rounded-md cursor-pointer bg-gray-50"
-                  width={320}
-                  height={180}
+                  className="border object-cover rounded-md cursor-pointer bg-gray-50 w-[288px]"
+                  width={288}
+                  height={162}
                   loading="lazy"
                 />
               </DialogTrigger>
@@ -45,7 +45,7 @@ function Images(props: Props): JSX.Element {
                   key={item}
                   src={item}
                   alt="screenshot"
-                  className="object-cover"
+                  className="object-cover w-[462px]"
                   width={462}
                   height={260}
                   loading="lazy"

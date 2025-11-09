@@ -6,7 +6,7 @@ import { JSX, type PropsWithChildren } from 'react';
 function NavigateBack(props: PropsWithChildren): JSX.Element {
   const router = useRouter();
   const handleClick = () => {
-    const canGoBack = navigation ? navigation.canGoBack : history.length > 1;
+    const canGoBack = window.navigation ? navigation.canGoBack : history.length > 1;
 
     if (canGoBack) {
       router.back();

@@ -117,7 +117,7 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
         </div>
       </div>
       <Tabs className="mt-8 w-full grow" defaultValue="introduction">
-        <TabsList>
+        <TabsList className="mx-auto sm:mx-0">
           <TabsTrigger className="cursor-pointer" value="introduction">
             介绍
           </TabsTrigger>

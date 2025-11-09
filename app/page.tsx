@@ -31,7 +31,7 @@ async function AppStore(props: Props): Promise<JSX.Element> {
       <SelectPlatform platform={platform} />
       <ItemGroup className="mt-4 w-full gap-6">
         {apps.map(item => (
-          <Item className="sm:flex-row" key={item.id} variant="outline" asChild>
+          <Item className="flex-col items-start sm:flex-row sm:items-center" key={item.id} variant="outline" asChild>
             <Link href={`/apps/${item.id}`}>
               <div className="flex gap-4 grow">
                 <ItemMedia>
