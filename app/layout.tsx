@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type { JSX, PropsWithChildren } from 'react';
 
+import Progress from './progress';
+
 import './globals.css';
 
 const geistSans = Geist({
@@ -30,6 +32,7 @@ function RootLayout(props: PropsWithChildren): JSX.Element {
             <div className="mt-10 text-muted-foreground">&copy; Cr4zy Uru5</div>
           </main>
         </div>
+        <Progress />
         <Analytics />
       </body>
     </html>
