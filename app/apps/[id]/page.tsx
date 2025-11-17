@@ -127,6 +127,9 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
           <TabsTrigger className="cursor-pointer" value="permission">
             权限
           </TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="changelog">
+            更新日志
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="introduction">
           <div className="mt-3 whitespace-pre-wrap">{decode(detail.description.replaceAll('&amp;', '&'))}</div>
@@ -200,6 +203,9 @@ async function AppDetail(props: Props): Promise<JSX.Element> {
               </AccordionItem>
             ))}
           </Accordion>
+        </TabsContent>
+        <TabsContent value="changelog">
+          <div className="mt-3">{detail.updata_message}</div>
         </TabsContent>
       </Tabs>
     </>
