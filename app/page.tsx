@@ -33,7 +33,7 @@ async function AppStore(props: Props): Promise<JSX.Element> {
         {apps.map(item => (
           <Item className="flex-col items-start sm:flex-row sm:items-center" key={item.id} variant="outline" asChild>
             <Link href={`/apps/${item.id}`}>
-              <div className="flex gap-4 grow w-0">
+              <div className="flex gap-4 grow sm:w-0">
                 <ItemMedia>
                   <Image
                     className="border rounded-md w-16 h-16 bg-gray-50 dark:bg-gray-800"
